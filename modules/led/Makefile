@@ -9,8 +9,6 @@ else
 
 KERNEL_DIR := /home/wjxh/linux/linux/linux
 
-CC_PREFIX := /home/wjxh/linux/tool/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/bin
-
 MODULE_DIR := $(shell pwd)
 
 all:
