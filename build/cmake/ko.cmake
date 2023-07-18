@@ -33,10 +33,15 @@ function(compile_module obj)
             POST_BUILD COMMAND
             ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/*.ko /home/wjxh/linux/nfs/rootfs/root/
             )
-#    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${module}${KO} DESTINATION drivers)
+    # install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${module}${KO} DESTINATION drivers)
 
+    # -DDEBUG=TRUE 打开提示
+# if (DEFINED DEBUG)
+    # 修改 DEBUG，而不是添加 或 删除
+if (${DEBUG} STREQUAL "TRUE")
     # 必须打开下面内容，编写 led.c 才会进行提示
     aux_source_directory(. ${obj}_SRC)
     add_executable(${obj}_exe ${${obj}_SRC})
+endif()
 endfunction()
 
