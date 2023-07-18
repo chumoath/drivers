@@ -1,1 +1,1 @@
-set (ko_target led)
+set (ko_target led proc)

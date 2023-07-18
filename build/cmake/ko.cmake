@@ -29,6 +29,9 @@ function(compile_module obj)
             # ${CMAKE_CURRENT_LIST_DIR}
             POST_BUILD COMMAND
             ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/*.ko ${CMAKE_BINARY_DIR}/ko/
+
+            POST_BUILD COMMAND
+            ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/*.ko /home/wjxh/linux/nfs/rootfs/root/
             )
 #    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${module}${KO} DESTINATION drivers)
 
