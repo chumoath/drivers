@@ -1,5 +1,5 @@
 include (../build/cmake/ko.cmake)
-
+include (../build/cmake/linux_defines.cmake)
 if (${BOARD_TYPE}  STREQUAL "imx6ull")
     include (../build/cmake/imx6ull.cmake)
 endif()

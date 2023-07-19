@@ -17,6 +17,8 @@ typedef struct {
     char hello[256];
     struct proc_dir_entry *file;
     struct file_operations ops;
+//    struct proc_ops ops;
+
 } sys_info_procfs_file;
 
 typedef struct {
