@@ -5,13 +5,25 @@ function(compile_module obj)
 
             # CMAKE_CURRENT_SOURCE_DIR 可以从 build.make 查看实际效果
             # step 1
-            COMMAND cp -rfa ${CMAKE_CURRENT_SOURCE_DIR}/* ${CMAKE_CURRENT_BINARY_DIR}/
+            COMMAND
+            cp -rfa ${CMAKE_CURRENT_SOURCE_DIR}/* ${CMAKE_CURRENT_BINARY_DIR}/
+
+            COMMAND
+            ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/arm.symvers
+
+            # 所有的 symbol 都放到 arm.symvers 中
+            COMMAND
+            ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/arm.symvers ${CMAKE_CURRENT_BINARY_DIR}/
             )
 
     add_custom_command(TARGET ${obj}
             # step 2
             PRE_BUILD COMMAND
             ${CMAKE_COMMAND} -E echo "compiling module ${obj}.ko..."
+
+            # 每一个 Makefile 最后都要加一个 空格，否则 会缺失 endif
+            PRE_BUILD COMMAND
+            ${CMAKE_COMMAND} -E echo ${symvers} >> ${CMAKE_CURRENT_BINARY_DIR}/Makefile
 
             # step 3
             COMMAND
@@ -32,6 +44,9 @@ function(compile_module obj)
 
             POST_BUILD COMMAND
             ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/*.ko /home/wjxh/linux/nfs/rootfs/root/
+
+            POST_BUILD COMMAND
+            ${CMAKE_COMMAND} -E cat ${CMAKE_CURRENT_BINARY_DIR}/Module.symvers >> ${CMAKE_BINARY_DIR}/arm.symvers
             )
     # install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${module}${KO} DESTINATION drivers)
 
@@ -44,4 +59,10 @@ if (${DEBUG} STREQUAL "TRUE")
     add_executable(${obj}_exe ${${obj}_SRC})
 endif()
 endfunction()
+
+
+macro(add_module_flag flags)
+    set (EXTRA_FLAGS "EXTRA_CFLAGS += ${flags}")
+    set (symvers "KBUILD_EXTRA_SYMBOLS += ${CMAKE_CURRENT_BINARY_DIR}/*.symvers")
+endmacro()
 

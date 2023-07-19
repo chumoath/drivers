@@ -23,3 +23,4 @@ clean:
 	make -C $(KERNEL_DIR) M=$(PWD) clean
 
 endif
+

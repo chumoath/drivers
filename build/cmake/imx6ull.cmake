@@ -1,1 +1,1 @@
-set (ko_target led proc i2c)
+set (ko_target led proc i2c common)
