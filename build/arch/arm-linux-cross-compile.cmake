@@ -28,3 +28,8 @@ set (CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set (CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 
 set (CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+
+set(SYMVERS_DIR ${CMAKE_BINARY_DIR}/symvers)
+set(KO_DIR /home/wjxh/linux/nfs/rootfs/root)
+
+set(KO_INC ${CMAKE_BINARY_DIR}/infected/modules/common)

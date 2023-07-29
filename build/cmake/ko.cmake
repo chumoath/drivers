@@ -9,11 +9,13 @@ function(compile_module obj)
             cp -rfa ${CMAKE_CURRENT_SOURCE_DIR}/* ${CMAKE_CURRENT_BINARY_DIR}/
 
             COMMAND
-            ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/arm.symvers
+#            ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/arm.symvers
+            ${CMAKE_COMMAND} -E make_directory ${SYMVERS_DIR}
 
             # 所有的 symbol 都放到 arm.symvers 中
             COMMAND
-            ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/arm.symvers ${CMAKE_CURRENT_BINARY_DIR}/
+#            ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/arm.symvers ${CMAKE_CURRENT_BINARY_DIR}/
+            ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/../arm.symvers ${SYMVERS_DIR}/
             )
 
     add_custom_command(TARGET ${obj}
@@ -22,13 +24,15 @@ function(compile_module obj)
             ${CMAKE_COMMAND} -E echo "compiling module ${obj}.ko..."
 
             # 每一个 Makefile 最后都要加一个 空格，否则 会缺失 endif
-            PRE_BUILD COMMAND
-            ${CMAKE_COMMAND} -E echo ${symvers} >> ${CMAKE_CURRENT_BINARY_DIR}/Makefile
+#            PRE_BUILD COMMAND
+#            ${CMAKE_COMMAND} -E echo ${symvers} >> ${CMAKE_CURRENT_BINARY_DIR}/Makefile
 
             # step 3
             COMMAND
-            export KERNEL_DIR=/home/wjxh/linux/linux/linux &&
-            export MODULE_PATH=/home/wjxh/drivers/infected/modules &&
+            export KERNEL_DIR=${LINUX_PATH} &&
+            export SYMVERS_DIR=${SYMVERS_DIR} &&
+            export KO_INC=${KO_INC} &&
+            export MODULE_PATH=${CMAKE_SOURCE_DIR}/infected/modules &&
             make
 
             # step 4
@@ -36,17 +40,17 @@ function(compile_module obj)
             ${CMAKE_COMMAND} -E echo "compile module ${obj}.ko OK"
 
             POST_BUILD COMMAND
-            ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/ko
+            ${CMAKE_COMMAND} -E make_directory ${KO_DIR}
 
             # ${CMAKE_CURRENT_LIST_DIR}
             POST_BUILD COMMAND
-            ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/*.ko ${CMAKE_BINARY_DIR}/ko/
+            ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/*.ko ${KO_DIR}/
 
             POST_BUILD COMMAND
-            ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/*.ko /home/wjxh/linux/nfs/rootfs/root/
+            ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/*.symvers ${SYMVERS_DIR}/
 
-            POST_BUILD COMMAND
-            ${CMAKE_COMMAND} -E cat ${CMAKE_CURRENT_BINARY_DIR}/Module.symvers >> ${CMAKE_BINARY_DIR}/arm.symvers
+#            POST_BUILD COMMAND
+#            ${CMAKE_COMMAND} -E cat ${CMAKE_CURRENT_BINARY_DIR}/Module.symvers >> ${CMAKE_BINARY_DIR}/arm.symvers
             )
     # install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${module}${KO} DESTINATION drivers)
 
@@ -63,6 +67,6 @@ endfunction()
 
 macro(add_module_flag flags)
     set (EXTRA_FLAGS "EXTRA_CFLAGS += ${flags}")
-    set (symvers "KBUILD_EXTRA_SYMBOLS += ${CMAKE_CURRENT_BINARY_DIR}/*.symvers")
+#    set (symvers "KBUILD_EXTRA_SYMBOLS += ${CMAKE_CURRENT_BINARY_DIR}/*.symvers")
 endmacro()
 

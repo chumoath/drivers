@@ -5,6 +5,8 @@ ifneq ($(KERNELRELEASE), )
 
 obj-m := proc_drv.o
 proc_drv-objs := proc.o
+KBUILD_EXTRA_SYMBOLS += ${SYMVERS_DIR}/common.symvers
+EXTRA_CFLAGS += -I${KO_INC}
 
 else
 
@@ -15,6 +17,8 @@ default:
 	#cp -f ${MODULE_PATH}/led/led_v1/led.h ${PWD}/
 	make -C $(KERNEL_DIR) M=$(PWD) modules
 	# ${CROSS_COMPILE}strip -d *.ko
+	mv Module.symvers proc.symvers
+
 clean:
 	rm -rf Module.s* modules.order *.markers .tmp_versions
 	#mv ${PWD}/test.c ${PWD}/test_c

@@ -6,6 +6,9 @@ ifneq ($(KERNELRELEASE), )
 obj-m := led_drv.o
 led_drv-objs := led.o
 
+KBUILD_EXTRA_SYMBOLS += ${SYMVERS_DIR}/common.symvers
+EXTRA_CFLAGS += -I${KO_INC}
+
 else
 
 PWD := $(shell pwd)
@@ -14,6 +17,8 @@ default:
 	cp -f ${MODULE_PATH}/led/led_v1/led.c ${PWD}/
 	cp -f ${MODULE_PATH}/led/led_v1/led.h ${PWD}/
 	make -C $(KERNEL_DIR) M=$(PWD) modules
+	mv Module.symvers led.symvers
+
 	# ${CROSS_COMPILE}strip -d *.ko
 clean:
 	rm -rf Module.s* modules.order *.markers .tmp_versions

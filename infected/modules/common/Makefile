@@ -13,6 +13,7 @@ PWD := $(shell pwd)
 default:
 	make -C $(KERNEL_DIR) M=$(PWD) modules
 	# ${CROSS_COMPILE}strip -d *.ko
+	mv Module.symvers common.symvers
 clean:
 	make -C $(KERNEL_DIR) M=$(PWD) clean
 	rm -f *.c
