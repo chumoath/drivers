@@ -1,4 +1,19 @@
-set (ko_target led proc i2c common timer atomic spinlock semaphore mutex int blockio noblockio)
+set (ko_target
+        led
+        proc
+        i2c
+        common
+        timer
+        atomic
+        spinlock
+        semaphore
+        mutex
+        int
+        blockio
+        noblockio
+        asyncnoti)
+
+
 add_dependencies(led common)
 add_dependencies(proc common)
 add_dependencies(i2c common)
@@ -10,3 +25,4 @@ add_dependencies(mutex common)
 add_dependencies(int common)
 add_dependencies(blockio common)
 add_dependencies(noblockio common)
+add_dependencies(asyncnoti common)
