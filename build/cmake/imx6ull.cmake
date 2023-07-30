@@ -1,5 +1,6 @@
-set (ko_target led proc i2c common inc)
+set (ko_target led proc i2c common timer)
 add_dependencies(led common)
 add_dependencies(proc common)
 add_dependencies(i2c common)
-add_dependencies(inc common)
+add_dependencies(timer common)
+#add_dependencies(inc common)

@@ -68,7 +68,7 @@ static ssize_t led_write(struct file *filp, const char __user *buf,
     }
 
     printk (KERN_INFO "led_write: gpio_set_value successfully!\n");
-    return 0;
+    return cnt;
 }
 
 static int led_release(struct inode *inode, struct file *filp)
