@@ -1,0 +1,37 @@
+gpio
+创建设备
+
+&iomuxc {
+        pinctrl-names = "default";
+        pinctrl-0 = <&pinctrl_hog_1>;
+        imx6ul-evk {
+                pinctrl_hog_1: hoggrp-1 {
+                        fsl,pins = <
+                                MX6UL_PAD_UART1_RTS_B__GPIO1_IO19       0x17059 /* SD1 CD */
+                                MX6UL_PAD_GPIO1_IO05__USDHC1_VSELECT    0x17059 /* SD1 VSELECT */
+                                MX6UL_PAD_GPIO1_IO00__ANATOP_OTG1_ID    0x13058 /* USB_OTG1_ID */
+                        >;
+                };
+
+                pinctrl_gpio_leds: gpio-leds {
+                        fsl,pins = <
+                                MX6UL_PAD_GPIO1_IO03__GPIO1_IO03        0x17059
+                        >;
+                };
+        };
+};
+    gpioled {
+        #address-cells = <1>;
+        #size-cells = <1>;
+        pinctrl-0 = <&pinctrl_led>;
+        led-gpio = <&gpio1 3 GPIO_ACTIVE_LOW>;
+    }
+
+    timerdev.nd = of_find_node_by_path("/gpioled");   找到 设备节点
+
+    timerdev.led_gpio = of_get_named_gpio(timerdev.nd, "led-gpio", 0);     根据 属性值获取 led 对应的 gpio
+
+    其余操作都使用 gpio 号
+    gpio_request(timerdev.led_gpio, "led");
+
+    gpio_direction_output(timerdev.led_gpio, 1);

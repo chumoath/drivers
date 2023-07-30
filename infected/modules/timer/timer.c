@@ -33,12 +33,14 @@ static int led_init(void)
 {
     int ret = 0;
 
-    timerdev.nd = of_find_node_by_path("/gpioled");
+//    timerdev.nd = of_find_node_by_path("/gpioled");
+    timerdev.nd = of_find_node_by_path("/leds/led1");
     if (timerdev.nd == NULL) {
+        printk ("can not find /gpioled\n");
         return -EINVAL;
     }
 
-    timerdev.led_gpio = of_get_named_gpio(timerdev.nd, "led-gpio", 0);
+    timerdev.led_gpio = of_get_named_gpio(timerdev.nd, "gpios", 0);
 
     if (timerdev.led_gpio < 0) {
         printk ("can not get led\n");
