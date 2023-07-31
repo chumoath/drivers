@@ -1,0 +1,1 @@
+compile_module(platform_dts)

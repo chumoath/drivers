@@ -12,7 +12,9 @@ set (ko_target
         blockio
         noblockio
         asyncnoti
-        platform)
+        platform
+        platform_dts
+        misc)
 
 
 add_dependencies(led common)
@@ -28,3 +30,5 @@ add_dependencies(blockio common)
 add_dependencies(noblockio common)
 add_dependencies(asyncnoti common)
 add_dependencies(platform common)
+add_dependencies(platform_dts common)
+add_dependencies(misc common)
