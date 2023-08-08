@@ -10,7 +10,8 @@ set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR arm)
 
 set (SDK_PATH /home/wjxh/linux/tool/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf)
-set (LINUX_PATH /home/wjxh/linux/linux/linux)
+#set (LINUX_PATH /home/wjxh/linux/linux/linux)
+set (LINUX_PATH /home/wjxh/linux/linux/alientek_linux)
 # 已经修改了 /etc/environment，不需要手动修改 PATH；可能和 sshd 启动的选项有关 /etc/profile
 #set(ENV{PATH} "$ENV{PATH}:${SDK_PATH}/bin")
 

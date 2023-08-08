@@ -2,12 +2,12 @@
 # KERNEL_DIR 是从 CMAKE 中传过来的
 # MODULE_PATH 也是从 CMAKE 传过来的
 
-MODULE_NAME=i2c_drv
+MODULE_NAME=input_drv
 
 ifneq ($(KERNELRELEASE), )
 
 obj-m := $(MODULE_NAME).o
-$(MODULE_NAME)-objs += i2c.o
+$(MODULE_NAME)-objs += input.o
 #${MODULE_NAME}-objs := platform.o
 KBUILD_EXTRA_SYMBOLS += ${SYMVERS_DIR}/common.symvers
 EXTRA_CFLAGS += -I${KO_INC}

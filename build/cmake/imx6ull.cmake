@@ -14,7 +14,10 @@ set (ko_target
         asyncnoti
         platform
         platform_dts
-        misc)
+        misc
+        input
+        rtc
+        spi)
 
 
 add_dependencies(led common)
@@ -32,3 +35,7 @@ add_dependencies(asyncnoti common)
 add_dependencies(platform common)
 add_dependencies(platform_dts common)
 add_dependencies(misc common)
+add_dependencies(input common)
+add_dependencies(rtc common)
+add_dependencies(i2c common)
+add_dependencies(spi common)
